@@ -54,20 +54,24 @@
 
 #legend-container {
   position: absolute;
-  z-index: 1000;
-  bottom: 30px;
-  right: 10px;
+  left: 10px;
+  bottom: 10px;
   background: #FFF;
-  padding: 10px 15px 10px 15px;
+  padding: 5px 10px 5px 10px;
   border-radius: 7px;
 }
 
 #legend {
   float: right;
   background: white;
-  padding: 10px;
+  padding: 5px;
+  font-size: 14px;
 }
 
+#legend h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
 
 .legendItem {
 }
@@ -86,7 +90,7 @@
   margin-right: 5px;
 }
 
-.gradeA::before {background-color: green}
-.gradeB::before {background-color: blue}
-.gradeC::before {background-color: yellow}
-.gradeD::before {background-color: red}
+.gradeA::before {background-color: #82B25B}
+.gradeB::before {background-color: #81BCC1}
+.gradeC::before {background-color: #DED661}
+.gradeD::before {background-color: #DD7785}

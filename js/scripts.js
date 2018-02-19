@@ -1,20 +1,110 @@
 
 // Initialize the map, slightly off center of BK for sidebar
-
 const BKLatLng = [40.6546199, -74.0105805];
 
 var map = L.map('redlining-map', {zoomControl: false}).setView(BKLatLng, 12);
 
 L.tileLayer('https://b.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, © <a href="https://carto.com/attribution">CARTO</a>'
 }).addTo(map);
 
 // After initially diabling zoom-control, add it back in different location
 L.control.zoom({position:'topright'}).addTo(map);
 
+
+const lookupGradeColor = (grade) => {
+  switch (grade) {
+    case 'A': return '#82B25B'
+    case 'B': return '#81BCC1'
+    case 'C': return '#DED661'
+    case 'D': return '#DD7785'
+  };
+};
+
+// Create this before listeners, reassign after.
+let geojsonHOLC;
+
+const populatePane = (e) => {
+  // expand the side pane
+  const isCollapsed = $('#pane-container').hasClass("pane-collapsed");
+  if (isCollapsed) $('#pane-toggle-button').trigger('click');
+
+  // add area description to side pane
+  const areaDesciptionData = e.target.feature.properties.area_description_data;
+  console.log(areaDesciptionData);
+
+  $('#pane-content p').text(areaDesciptionData['5']);
+
+};
+
+const highlightFeature = (e) => {
+  const layer = e.target;
+  layer.openPopup();
+
+  layer.setStyle({
+    weight: 5,
+    fillOpacity: 0.8
+  });
+}
+
+const resetHighlight = (e) => {
+  const layer = e.target;
+  layer.closePopup();
+  geojsonHOLC.resetStyle(layer);
+}
+
+
+$.getJSON('data/bk_boundary.geojson', function(bk_boundary) {
+  L.geoJSON(bk_boundary, {
+    style: {
+      weight: 1,
+      color: 'black',
+      fillOpacity: 0,
+    }
+  }).addTo(map);
+});
+
+$.getJSON('data/HOLC_Brooklyn.geojson', function(holc) {
+
+  // 'geojson' created before listeners, now reassign after (http://leafletjs.com/examples/choropleth/)
+  geojsonHOLC = L.geoJSON(holc, {
+    style: (feature) => {
+      return {
+        color: lookupGradeColor(feature.properties.holc_grade),
+        opacity: 0.9,
+        fillOpacity: 0.7
+      };
+    },
+    onEachFeature: function(feature, layer) {
+      // console.log(feature.properties);
+
+      layer.on({
+        'click': populatePane,
+        'mouseover': highlightFeature,
+        'mouseout': resetHighlight
+      });
+    }
+  });
+
+  geojsonHOLC.addTo(map);
+
+  // There are two sets of overlapping polygons. Loop over all the layers, if
+  // the layer is one fo the smaller covered ones, bring it to the front
+  Object.entries(geojsonHOLC._layers).forEach((e) => {
+    const layer = e[1];
+    if (['C2', 'D15'].includes(layer.feature.properties.holc_id)) {
+      layer.bringToFront();
+    }
+  });
+
+});
+
+
+
+// Side pane collapse control
 $('#pane-toggle-button').click(() => {
 
-  $('#pane-container').toggleClass("pane-collapsed")
+  $('#pane-container').toggleClass("pane-collapsed");
 
   const isCollapsed = $('#pane-container').hasClass("pane-collapsed");
 
@@ -23,5 +113,4 @@ $('#pane-toggle-button').click(() => {
   } else {
     $('#pane-toggle-icon').attr('class', 'ion-chevron-left')
   }
-
 });
