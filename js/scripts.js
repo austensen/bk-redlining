@@ -24,13 +24,31 @@ const lookupGradeColor = (grade) => {
 // Create this before listeners, reassign after.
 let geojsonHOLC;
 
+// The layer that was last clicked
+let selected = null;
+
+const highlightStyle = {
+  weight: 4,
+  opacity: 1,
+  fillOpacity: 0.9
+};
+
 const populatePane = (e) => {
+  const layer = e.target;
+
+  const previous = selected;
+  selected = layer;
+
+  if (previous) geojsonHOLC.resetStyle(previous);
+
+  selected.setStyle(highlightStyle);
+
   // expand the side pane
   const isCollapsed = $('#pane-container').hasClass("pane-collapsed");
   if (isCollapsed) $('#pane-toggle-button').trigger('click');
 
   // add area description to side pane
-  const areaDesciptionData = e.target.feature.properties.area_description_data;
+  const areaDesciptionData = selected.feature.properties.area_description_data;
   console.log(areaDesciptionData);
 
   $('#pane-content p').text(areaDesciptionData['5']);
@@ -39,18 +57,14 @@ const populatePane = (e) => {
 
 const highlightFeature = (e) => {
   const layer = e.target;
-  layer.openPopup();
-
-  layer.setStyle({
-    weight: 5,
-    fillOpacity: 0.8
-  });
+  layer.setStyle(highlightStyle);
 }
 
 const resetHighlight = (e) => {
   const layer = e.target;
-  layer.closePopup();
-  geojsonHOLC.resetStyle(layer);
+  if (selected === null || selected._leaflet_id !== layer._leaflet_id) {
+    geojsonHOLC.resetStyle(layer);
+  }
 }
 
 
@@ -71,7 +85,8 @@ $.getJSON('data/HOLC_Brooklyn.geojson', function(holc) {
     style: (feature) => {
       return {
         color: lookupGradeColor(feature.properties.holc_grade),
-        opacity: 0.9,
+        weight: 2,
+        opacity: 0.8,
         fillOpacity: 0.7
       };
     },
