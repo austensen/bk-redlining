@@ -14,7 +14,7 @@
   transform: translateX(-408px);
 }
 
-#pane-content {
+.pane-content {
   z-index: 10;
   padding: 10px;
 }
@@ -52,10 +52,15 @@
   bottom: 0;
 }
 
+#sources {
+  position: absolute;
+  bottom: 0;
+}
+
 #legend-container {
   position: absolute;
   left: 10px;
-  bottom: 10px;
+  bottom: 40px;
   background: #FFF;
   padding: 5px 10px 5px 10px;
   border-radius: 7px;

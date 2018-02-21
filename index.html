@@ -18,9 +18,21 @@
   <div id="map-container">
     <div id="redlining-map">
     <div class="pane" id="pane-container">
-      <div id="pane-content">
+      <div class="pane-content" id="pane-content-container">
         <h1>Brooklyn</h1>
-        <p>Test test</p>
+        <p>*Description of HOLC "Residential Security" Maps, "Redlining", and the purposeof this map*</p>
+        <br>
+        <hr>
+        <br>
+        <div id="area-info-container">
+          <h2 id="area-name"></h2>
+          <h3 id="title-inhabitants"></h3>
+          <span id="area-inhabitants"></span>
+          <br>
+          <br>
+          <h3 id="title-description"></h3>
+          <span id="area-description"></span>
+        </div>
       </div>
       <div id="pane-toggle-button-container">
         <button id="pane-toggle-button">
@@ -35,6 +47,9 @@
           <div class="legendItem gradeC"> <b>C</b> - "Definitely Declining"</div>
           <div class="legendItem gradeD"> <b>D</b> - "Hazardous"</div>
         </div>
+      </div>
+      <div class="pane-content" id="sources">
+        Source: <a href="https://dsl.richmond.edu/panorama/redlining">“Mapping Inequality” American Panorama</a>
       </div>
     </div>
     </div>

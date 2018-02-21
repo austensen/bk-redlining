@@ -11,6 +11,14 @@ L.tileLayer('https://b.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.p
 // After initially diabling zoom-control, add it back in different location
 L.control.zoom({position:'topright'}).addTo(map);
 
+// Disable leaflet events on elements in front
+$('#pane-container').on('mouseover', () => {
+  map.dragging.disable();
+});
+$('#pane-container').on('mouseout', () => {
+  map.dragging.enable();
+});
+
 
 const lookupGradeColor = (grade) => {
   switch (grade) {
@@ -51,7 +59,21 @@ const populatePane = (e) => {
   const areaDesciptionData = selected.feature.properties.area_description_data;
   console.log(areaDesciptionData);
 
-  $('#pane-content p').text(areaDesciptionData['5']);
+  const areaName = areaDesciptionData['6']
+    .replace(/\d/g, '')
+    .replace(/\b[ABCD]\b/g, '')
+    .replace(/[bB]rooklyn/g, '')
+    .replace(/^[\s-,]+/g, '')
+    .replace(/[\s-,]+$/g, '')
+
+
+
+  $('#title-inhabitants').text('Inhabitants:');
+  $('#title-description').text('Description:');
+
+  $('#area-name').text(areaName);
+  $('#area-inhabitants').text(areaDesciptionData['2e']);
+  $('#area-description').text(areaDesciptionData['5']);
 
 };
 
