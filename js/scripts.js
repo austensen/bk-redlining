@@ -11,21 +11,13 @@ L.tileLayer('https://b.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}.p
 // After initially diabling zoom-control, add it back in different location
 L.control.zoom({position:'topright'}).addTo(map);
 
-// Disable leaflet events on elements in front
-$('#pane-container').on('mouseover', () => {
-  map.dragging.disable();
-});
-$('#pane-container').on('mouseout', () => {
-  map.dragging.enable();
-});
-
 
 const lookupGradeColor = (grade) => {
   switch (grade) {
-    case 'A': return '#82B25B'
-    case 'B': return '#81BCC1'
-    case 'C': return '#DED661'
-    case 'D': return '#DD7785'
+    case 'A': return '#6F9929'
+    case 'B': return '#94B1B8'
+    case 'C': return '#E6DD55'
+    case 'D': return '#CF4C5B'
   };
 };
 
@@ -63,8 +55,8 @@ const populatePane = (e) => {
     .replace(/\d/g, '')
     .replace(/\b[ABCD]\b/g, '')
     .replace(/[bB]rooklyn/g, '')
-    .replace(/^[\s-,]+/g, '')
-    .replace(/[\s-,]+$/g, '')
+    .replace(/^[\s-,+]+/g, '')
+    .replace(/[\s-,+]+$/g, '')
 
 
 
@@ -137,6 +129,13 @@ $.getJSON('data/HOLC_Brooklyn.geojson', function(holc) {
 });
 
 
+// Disable leaflet events on elements in front
+$('#pane-container').on('mouseover', () => {
+  map.dragging.disable();
+});
+$('#pane-container').on('mouseout', () => {
+  map.dragging.enable();
+});
 
 // Side pane collapse control
 $('#pane-toggle-button').click(() => {

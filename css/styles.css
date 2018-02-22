@@ -1,3 +1,7 @@
+h1, h2, h3 {
+  font-family: futura, sans-serif;
+}
+
 .pane {
   z-index: 1000;
   position: absolute;
@@ -5,7 +9,8 @@
   left: 0;
   bottom: 0;
   width: 408px;
-  background: gold;
+  background: #f1f1f1;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .pane-collapsed {
@@ -16,7 +21,15 @@
 
 .pane-content {
   z-index: 10;
-  padding: 10px;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  padding: 10px 20px 10px 10px;
+}
+
+#red-text {
+  color: #CF4C5B;
+  font-weight: lighter;
 }
 
 #pane-toggle-button-container {
@@ -33,7 +46,6 @@
   border-left: 1px solid #D4D4D4;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
 }
-}
 
 #map-container {
   position: absolute;
@@ -45,7 +57,6 @@
 
 #redlining-map {
   position: absolute;
-  z-index: -1;
   top: 0;
   right: 0;
   left: 0;
@@ -58,17 +69,10 @@
 }
 
 #legend-container {
-  position: absolute;
-  left: 10px;
   bottom: 40px;
-  background: #FFF;
-  padding: 5px 10px 5px 10px;
-  border-radius: 7px;
 }
 
 #legend {
-  float: right;
-  background: white;
   padding: 5px;
   font-size: 14px;
 }
@@ -76,6 +80,10 @@
 #legend h3 {
   margin-top: 0;
   margin-bottom: 5px;
+}
+
+#legend b {
+  font-family: futura, sans-serif;
 }
 
 .legendItem {
@@ -95,7 +103,7 @@
   margin-right: 5px;
 }
 
-.gradeA::before {background-color: #82B25B}
-.gradeB::before {background-color: #81BCC1}
-.gradeC::before {background-color: #DED661}
-.gradeD::before {background-color: #DD7785}
+.gradeA::before {background-color: #6F9929}
+.gradeB::before {background-color: #94B1B8}
+.gradeC::before {background-color: #E6DD55}
+.gradeD::before {background-color: #CF4C5B}
